@@ -86,10 +86,13 @@ const Footer = () => {
             © {currentYear} TechPulse. All rights reserved.
           </p>
           
-          <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-            <span>Made with</span>
-            <Heart className="w-4 h-4 text-red-500 fill-current" />
-            <span>for the tech community</span>
+          <div className="flex items-center space-x-4 text-sm text-muted-foreground">
+            <div className="flex items-center space-x-2">
+              <span>Made with</span>
+              <Heart className="w-4 h-4 text-red-500 fill-current" />
+              <span>for the tech community</span>
+            </div>
+            <span className="text-primary font-medium">TechPulse</span>
           </div>
         </div>
       </div>

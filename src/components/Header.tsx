@@ -28,12 +28,13 @@ const Header = () => {
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center space-x-3">
+          <div className="flex flex-col items-start space-y-1">
             <img 
               src="/lovable-uploads/80c993d6-387a-4553-85c2-c98311755584.png" 
               alt="TechPulse Digital Village" 
               className="h-10 w-auto"
             />
+            <span className="text-sm font-medium text-primary">TechPulse</span>
           </div>
 
           {/* Navigation - Desktop */}
