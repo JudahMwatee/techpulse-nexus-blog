@@ -12,8 +12,8 @@ const Footer = () => {
           {/* Brand */}
           <div className="lg:col-span-1">
             <div className="flex items-center space-x-2 mb-4">
-              <div className="w-8 h-8 flex items-center justify-center">
-                <img src="/lovable-uploads/8ed340b8-fb46-4782-b22a-bd1d904356f3.png" alt="TechPulse Logo" className="w-8 h-8 object-contain" />
+              <div className="w-16 h-16 flex items-center justify-center">
+                <img src="/lovable-uploads/8ed340b8-fb46-4782-b22a-bd1d904356f3.png" alt="TechPulse Logo" className="w-16 h-16 object-contain" />
               </div>
               <span className="text-xl font-bold bg-gradient-primary bg-clip-text text-transparent">
                 TechPulse
