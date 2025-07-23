@@ -32,7 +32,7 @@ const Header = () => {
             <img 
               src="/lovable-uploads/80c993d6-387a-4553-85c2-c98311755584.png" 
               alt="TechPulse Digital Village" 
-              className="h-12 w-auto"
+              className="h-[196px] w-auto"
             />
             <span className="text-2xl font-bold text-primary">TechPulse</span>
           </div>
