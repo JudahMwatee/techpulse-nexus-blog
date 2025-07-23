@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Clock, User, ArrowRight, Eye } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { formatDistanceToNow } from "date-fns";
 
@@ -17,11 +18,13 @@ interface BlogPost {
   views: number;
   image_url: string | null;
   featured: boolean;
+  slug: string;
 }
 
 const FeaturedPosts = () => {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -77,6 +80,7 @@ const FeaturedPosts = () => {
                 className={`group cursor-pointer transition-all duration-300 hover:shadow-card hover:-translate-y-2 bg-gradient-card border-border/50 ${
                   index === 0 ? 'md:col-span-2 lg:col-span-1 lg:row-span-2' : ''
                 }`}
+                onClick={() => navigate(`/blog/${post.slug}`)}
               >
                 <div className="relative overflow-hidden rounded-t-lg">
                   <img 
@@ -130,6 +134,10 @@ const FeaturedPosts = () => {
                   <Button 
                     variant="ghost" 
                     className="w-full group justify-between hover:bg-primary/5"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigate(`/blog/${post.slug}`);
+                    }}
                   >
                     Read Article
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
