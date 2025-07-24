@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Mail, CheckCircle, Zap, Users, TrendingUp } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const Newsletter = () => {
   const [email, setEmail] = useState("");
@@ -54,8 +55,14 @@ const Newsletter = () => {
       // Store submission timestamp
       localStorage.setItem('newsletter_last_submission', now.toString());
       
-      // Simulate API call for now - replace with actual newsletter service
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // Call the actual newsletter subscription edge function
+      const { data, error } = await supabase.functions.invoke('newsletter-subscribe', {
+        body: { email }
+      });
+
+      if (error) {
+        throw error;
+      }
       
       setSubscribed(true);
       setEmail("");
@@ -64,7 +71,7 @@ const Newsletter = () => {
         description: "Welcome to TechPulse! Check your email for confirmation.",
       });
       
-    } catch (error) {
+    } catch (error: any) {
       toast({
         title: "Subscription failed",
         description: "Please try again later.",

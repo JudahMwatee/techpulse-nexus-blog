@@ -1,10 +1,18 @@
 import { Button } from "@/components/ui/button";
-import { Search, Menu, User, Bell, Moon, Sun } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Search, Menu, User, Bell, Moon, Sun, Mail } from "lucide-react";
 import { useState, useEffect } from "react";
+import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const Header = () => {
   const [darkMode, setDarkMode] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [email, setEmail] = useState("");
+  const [isSubscribing, setIsSubscribing] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const { toast } = useToast();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -17,6 +25,58 @@ const Header = () => {
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
     document.documentElement.classList.toggle('dark');
+  };
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!email) {
+      toast({
+        title: "Email required",
+        description: "Please enter your email address.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      toast({
+        title: "Invalid email",
+        description: "Please enter a valid email address.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsSubscribing(true);
+    
+    try {
+      // Call the actual newsletter subscription edge function
+      const { data, error } = await supabase.functions.invoke('newsletter-subscribe', {
+        body: { email }
+      });
+
+      if (error) {
+        throw error;
+      }
+      
+      setEmail("");
+      setIsDialogOpen(false);
+      toast({
+        title: "Successfully subscribed!",
+        description: "Welcome to TechPulse! Check your email for confirmation.",
+      });
+      
+    } catch (error: any) {
+      toast({
+        title: "Subscription failed",
+        description: "Please try again later.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubscribing(false);
+    }
   };
 
   return (
@@ -64,9 +124,43 @@ const Header = () => {
               <User className="w-5 h-5" />
             </Button>
             
-            <Button className="hidden sm:flex bg-gradient-primary hover:shadow-glow transition-all duration-300">
-              Subscribe
-            </Button>
+            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+              <DialogTrigger asChild>
+                <Button className="hidden sm:flex bg-gradient-primary hover:shadow-glow transition-all duration-300">
+                  Subscribe
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                  <DialogTitle className="flex items-center gap-2">
+                    <Mail className="w-5 h-5" />
+                    Subscribe to TechPulse
+                  </DialogTitle>
+                </DialogHeader>
+                <form onSubmit={handleSubscribe} className="space-y-4">
+                  <div className="space-y-2">
+                    <Input
+                      type="email"
+                      placeholder="Enter your email address"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="w-full"
+                      required
+                    />
+                    <p className="text-xs text-muted-foreground">
+                      Get the latest tech news and startup insights delivered to your inbox.
+                    </p>
+                  </div>
+                  <Button 
+                    type="submit" 
+                    disabled={isSubscribing}
+                    className="w-full bg-gradient-primary hover:shadow-glow transition-all duration-300"
+                  >
+                    {isSubscribing ? "Subscribing..." : "Subscribe"}
+                  </Button>
+                </form>
+              </DialogContent>
+            </Dialog>
 
             <Button variant="ghost" size="icon" className="md:hidden">
               <Menu className="w-5 h-5" />
