@@ -3,17 +3,44 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Mail, CheckCircle, Zap, Users, TrendingUp } from "lucide-react";
 import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 const Newsletter = () => {
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email) {
-      setSubscribed(true);
-      // Here you would integrate with your newsletter service
-      console.log("Newsletter signup:", email);
+    if (email && !isSubmitting) {
+      setIsSubmitting(true);
+      
+      try {
+        // Simulate API call for now - replace with actual newsletter service
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        setSubscribed(true);
+        toast({
+          title: "Successfully subscribed!",
+          description: "Welcome to TechPulse! Check your email for confirmation.",
+        });
+        
+        // Here you would integrate with your newsletter service like:
+        // await fetch('/api/newsletter/subscribe', { 
+        //   method: 'POST', 
+        //   body: JSON.stringify({ email }) 
+        // });
+        
+      } catch (error) {
+        toast({
+          title: "Subscription failed",
+          description: "Please try again later.",
+          variant: "destructive",
+        });
+      } finally {
+        setIsSubmitting(false);
+      }
     }
   };
 
@@ -92,9 +119,10 @@ const Newsletter = () => {
                     />
                     <Button 
                       type="submit" 
+                      disabled={isSubmitting}
                       className="bg-gradient-primary hover:shadow-glow transition-all duration-300"
                     >
-                      Subscribe
+                      {isSubmitting ? "Subscribing..." : "Subscribe"}
                     </Button>
                   </div>
                   <p className="text-xs text-muted-foreground mt-3 text-center">

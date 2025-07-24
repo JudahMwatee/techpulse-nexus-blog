@@ -7,6 +7,7 @@ import { ArrowLeft, Clock, User, Eye } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { parseContentWithParagraphs } from "@/utils/contentUtils";
 
 interface BlogPost {
   id: string;
@@ -173,8 +174,8 @@ const BlogPost = () => {
 
         {/* Article Content */}
         <div className="prose prose-lg max-w-none">
-          <div className="whitespace-pre-wrap leading-relaxed text-foreground">
-            {post.content}
+          <div className="text-foreground">
+            {parseContentWithParagraphs(post.content)}
           </div>
         </div>
 
