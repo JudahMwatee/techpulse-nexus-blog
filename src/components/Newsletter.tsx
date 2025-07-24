@@ -13,34 +13,65 @@ const Newsletter = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email && !isSubmitting) {
-      setIsSubmitting(true);
+    
+    if (!email) {
+      toast({
+        title: "Email required",
+        description: "Please enter your email address.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Enhanced email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      toast({
+        title: "Invalid email",
+        description: "Please enter a valid email address.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Basic rate limiting (client-side)
+    const lastSubmission = localStorage.getItem('newsletter_last_submission');
+    const now = Date.now();
+    if (lastSubmission && now - parseInt(lastSubmission) < 60000) { // 1 minute cooldown
+      toast({
+        title: "Too many requests",
+        description: "Please wait before subscribing again.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (isSubmitting) return;
+    
+    setIsSubmitting(true);
+    
+    try {
+      // Store submission timestamp
+      localStorage.setItem('newsletter_last_submission', now.toString());
       
-      try {
-        // Simulate API call for now - replace with actual newsletter service
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        
-        setSubscribed(true);
-        toast({
-          title: "Successfully subscribed!",
-          description: "Welcome to TechPulse! Check your email for confirmation.",
-        });
-        
-        // Here you would integrate with your newsletter service like:
-        // await fetch('/api/newsletter/subscribe', { 
-        //   method: 'POST', 
-        //   body: JSON.stringify({ email }) 
-        // });
-        
-      } catch (error) {
-        toast({
-          title: "Subscription failed",
-          description: "Please try again later.",
-          variant: "destructive",
-        });
-      } finally {
-        setIsSubmitting(false);
-      }
+      // Simulate API call for now - replace with actual newsletter service
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      setSubscribed(true);
+      setEmail("");
+      toast({
+        title: "Successfully subscribed!",
+        description: "Welcome to TechPulse! Check your email for confirmation.",
+      });
+      
+    } catch (error) {
+      toast({
+        title: "Subscription failed",
+        description: "Please try again later.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
