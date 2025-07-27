@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -10,6 +10,7 @@ import RichTextEditor from '@/components/RichTextEditor';
 import MarkdownRenderer from '@/components/MarkdownRenderer';
 import { useToast } from '@/hooks/use-toast';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 const BlogAdmin = () => {
   const [formData, setFormData] = useState({
@@ -26,7 +27,16 @@ const BlogAdmin = () => {
     featured: false,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [currentDraftId, setCurrentDraftId] = useState<string | null>(null);
+  const [lastSaved, setLastSaved] = useState<Date | null>(null);
+  const [existingDrafts, setExistingDrafts] = useState<any[]>([]);
+  const [isAutoSaving, setIsAutoSaving] = useState(false);
   const { toast } = useToast();
+
+  // Load existing drafts on component mount
+  useEffect(() => {
+    loadExistingDrafts();
+  }, []);
 
   // Auto-generate slug from title
   useEffect(() => {
@@ -39,6 +49,142 @@ const BlogAdmin = () => {
     }
   }, [formData.title, formData.slug]);
 
+  // Autosave functionality
+  useEffect(() => {
+    if (!formData.title && !formData.content) return; // Don't autosave empty forms
+    
+    const autoSaveInterval = setInterval(() => {
+      autoSaveDraft();
+    }, 30000); // Autosave every 30 seconds
+
+    return () => clearInterval(autoSaveInterval);
+  }, [formData]);
+
+  const loadExistingDrafts = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('blog_posts')
+        .select('id, blog_title, created_at, updated_at')
+        .eq('published', false)
+        .order('updated_at', { ascending: false })
+        .limit(10);
+
+      if (error) throw error;
+      setExistingDrafts(data || []);
+    } catch (error: any) {
+      console.error('Error loading drafts:', error);
+    }
+  };
+
+  const autoSaveDraft = useCallback(async () => {
+    if (!formData.title && !formData.content) return;
+    
+    setIsAutoSaving(true);
+    try {
+      const tagsArray = formData.tags
+        .split(',')
+        .map(tag => tag.trim())
+        .filter(tag => tag.length > 0);
+
+      const draftData = {
+        blog_title: formData.title || 'Untitled Draft',
+        slug: formData.slug || `draft-${Date.now()}`,
+        excerpt: formData.excerpt || null,
+        content: formData.content,
+        category: formData.category || 'Draft',
+        author: formData.author || 'Unknown',
+        image_url: formData.image_url || null,
+        tags: tagsArray.length > 0 ? tagsArray : null,
+        read_time: formData.read_time,
+        published: false,
+        featured: false,
+      };
+
+      if (currentDraftId) {
+        // Update existing draft
+        const { error } = await supabase
+          .from('blog_posts')
+          .update(draftData)
+          .eq('id', currentDraftId);
+        
+        if (error) throw error;
+      } else {
+        // Create new draft
+        const { data, error } = await supabase
+          .from('blog_posts')
+          .insert([draftData])
+          .select('id')
+          .single();
+        
+        if (error) throw error;
+        setCurrentDraftId(data.id);
+      }
+
+      setLastSaved(new Date());
+      await loadExistingDrafts(); // Refresh drafts list
+    } catch (error: any) {
+      console.error('Autosave failed:', error);
+    } finally {
+      setIsAutoSaving(false);
+    }
+  }, [formData, currentDraftId]);
+
+  const loadDraft = async (draftId: string) => {
+    try {
+      const { data, error } = await supabase
+        .from('blog_posts')
+        .select('*')
+        .eq('id', draftId)
+        .single();
+
+      if (error) throw error;
+
+      setFormData({
+        title: data.blog_title,
+        slug: data.slug,
+        excerpt: data.excerpt || '',
+        content: data.content,
+        category: data.category,
+        author: data.author,
+        image_url: data.image_url || '',
+        tags: data.tags ? data.tags.join(', ') : '',
+        read_time: data.read_time,
+        published: data.published,
+        featured: data.featured,
+      });
+
+      setCurrentDraftId(draftId);
+      toast({
+        title: "Draft loaded",
+        description: "Your draft has been loaded successfully.",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: "Failed to load draft.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const startNewPost = () => {
+    setFormData({
+      title: '',
+      slug: '',
+      excerpt: '',
+      content: '',
+      category: '',
+      author: '',
+      image_url: '',
+      tags: '',
+      read_time: 5,
+      published: false,
+      featured: false,
+    });
+    setCurrentDraftId(null);
+    setLastSaved(null);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -50,7 +196,7 @@ const BlogAdmin = () => {
         .filter(tag => tag.length > 0);
 
       const blogPost = {
-        title: formData.title,
+        blog_title: formData.title,
         slug: formData.slug,
         excerpt: formData.excerpt || null,
         content: formData.content,
@@ -64,31 +210,30 @@ const BlogAdmin = () => {
         published_at: formData.published ? new Date().toISOString() : null,
       };
 
-      const { error } = await supabase
-        .from('blog_posts')
-        .insert([blogPost]);
+      let error;
+      if (currentDraftId) {
+        // Update existing draft
+        ({ error } = await supabase
+          .from('blog_posts')
+          .update(blogPost)
+          .eq('id', currentDraftId));
+      } else {
+        // Create new post
+        ({ error } = await supabase
+          .from('blog_posts')
+          .insert([blogPost]));
+      }
 
       if (error) throw error;
 
       toast({
         title: "Success!",
-        description: "Blog post created successfully.",
+        description: currentDraftId ? "Blog post updated successfully." : "Blog post created successfully.",
       });
 
-      // Reset form
-      setFormData({
-        title: '',
-        slug: '',
-        excerpt: '',
-        content: '',
-        category: '',
-        author: '',
-        image_url: '',
-        tags: '',
-        read_time: 5,
-        published: false,
-        featured: false,
-      });
+      // Reset form and load drafts
+      startNewPost();
+      await loadExistingDrafts();
     } catch (error: any) {
       toast({
         title: "Error",
@@ -104,8 +249,47 @@ const BlogAdmin = () => {
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8 max-w-6xl">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">Blog Admin</h1>
-          <p className="text-muted-foreground">Create and manage blog posts with rich text editing</p>
+          <div className="flex justify-between items-start mb-4">
+            <div>
+              <h1 className="text-3xl font-bold mb-2">Blog Admin</h1>
+              <p className="text-muted-foreground">Create and manage blog posts with rich text editing</p>
+            </div>
+            <div className="flex flex-col items-end space-y-2">
+              {lastSaved && (
+                <p className="text-sm text-muted-foreground">
+                  {isAutoSaving ? 'Saving...' : `Last saved: ${lastSaved.toLocaleTimeString()}`}
+                </p>
+              )}
+              <Button onClick={startNewPost} variant="outline" size="sm">
+                New Post
+              </Button>
+            </div>
+          </div>
+          
+          {existingDrafts.length > 0 && (
+            <Card className="mb-6">
+              <CardHeader>
+                <CardTitle>Continue Writing</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2">
+                  <Label>Load existing draft:</Label>
+                  <Select onValueChange={loadDraft}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a draft to continue..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {existingDrafts.map((draft) => (
+                        <SelectItem key={draft.id} value={draft.id}>
+                          {draft.blog_title} - {new Date(draft.updated_at).toLocaleDateString()}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </CardContent>
+            </Card>
+          )}
         </div>
 
         <form onSubmit={handleSubmit}>
@@ -225,9 +409,22 @@ const BlogAdmin = () => {
                 </CardContent>
               </Card>
 
-              <Button type="submit" className="w-full" disabled={isSubmitting}>
-                {isSubmitting ? 'Creating...' : 'Create Blog Post'}
-              </Button>
+              <div className="space-y-2">
+                <Button type="submit" className="w-full" disabled={isSubmitting}>
+                  {isSubmitting ? (currentDraftId ? 'Updating...' : 'Creating...') : (currentDraftId ? 'Update Blog Post' : 'Create Blog Post')}
+                </Button>
+                {currentDraftId && (
+                  <Button 
+                    type="button" 
+                    onClick={() => autoSaveDraft()} 
+                    variant="outline" 
+                    className="w-full" 
+                    disabled={isAutoSaving}
+                  >
+                    {isAutoSaving ? 'Saving Draft...' : 'Save Draft Now'}
+                  </Button>
+                )}
+              </div>
             </div>
 
             {/* Right Column - Content Editor and Preview */}
