@@ -64,7 +64,7 @@ const BlogAdmin = () => {
     try {
       const { data, error } = await supabase
         .from('blog_posts')
-        .select('id, blog_title, created_at, updated_at')
+        .select('id, title, created_at, updated_at')
         .eq('published', false)
         .order('updated_at', { ascending: false })
         .limit(10);
@@ -87,7 +87,7 @@ const BlogAdmin = () => {
         .filter(tag => tag.length > 0);
 
       const draftData = {
-        blog_title: formData.title || 'Untitled Draft',
+        title: formData.title || 'Untitled Draft',
         slug: formData.slug || `draft-${Date.now()}`,
         excerpt: formData.excerpt || null,
         content: formData.content,
@@ -140,7 +140,7 @@ const BlogAdmin = () => {
       if (error) throw error;
 
       setFormData({
-        title: data.blog_title,
+        title: data.title,
         slug: data.slug,
         excerpt: data.excerpt || '',
         content: data.content,
@@ -196,7 +196,7 @@ const BlogAdmin = () => {
         .filter(tag => tag.length > 0);
 
       const blogPost = {
-        blog_title: formData.title,
+        title: formData.title,
         slug: formData.slug,
         excerpt: formData.excerpt || null,
         content: formData.content,
@@ -281,7 +281,7 @@ const BlogAdmin = () => {
                     <SelectContent>
                       {existingDrafts.map((draft) => (
                         <SelectItem key={draft.id} value={draft.id}>
-                          {draft.blog_title} - {new Date(draft.updated_at).toLocaleDateString()}
+                          {draft.title} - {new Date(draft.updated_at).toLocaleDateString()}
                         </SelectItem>
                       ))}
                     </SelectContent>
