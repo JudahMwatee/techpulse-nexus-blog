@@ -11,7 +11,7 @@ import MarkdownRenderer from "@/components/MarkdownRenderer";
 
 interface BlogPost {
   id: string;
-  title: string;
+  blog_title: string;
   content: string;
   excerpt: string | null;
   category: string;
@@ -132,7 +132,7 @@ const BlogPost = () => {
           </div>
           
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight">
-            {post.title}
+            {post.blog_title}
           </h1>
 
           {post.excerpt && (
@@ -165,7 +165,7 @@ const BlogPost = () => {
             <div className="mb-8">
               <img 
                 src={post.image_url} 
-                alt={post.title}
+                alt={post.blog_title}
                 className="w-full h-96 object-cover rounded-lg"
               />
             </div>

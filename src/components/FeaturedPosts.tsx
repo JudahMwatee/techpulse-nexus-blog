@@ -9,7 +9,7 @@ import { formatDistanceToNow } from "date-fns";
 
 interface BlogPost {
   id: string;
-  title: string;
+  blog_title: string;
   excerpt: string | null;
   category: string;
   author: string;
@@ -85,7 +85,7 @@ const FeaturedPosts = () => {
                 <div className="relative overflow-hidden rounded-t-lg">
                   <img 
                     src={post.image_url || 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&h=400&fit=crop'}
-                    alt={post.title}
+                    alt={post.blog_title}
                     className={`w-full object-cover transition-transform duration-300 group-hover:scale-105 ${
                       index === 0 ? 'h-64 lg:h-96' : 'h-48'
                     }`}
@@ -105,7 +105,7 @@ const FeaturedPosts = () => {
                   <h3 className={`font-bold mb-3 group-hover:text-primary transition-colors line-clamp-2 ${
                     index === 0 ? 'text-xl lg:text-2xl' : 'text-lg'
                   }`}>
-                    {post.title}
+                    {post.blog_title}
                   </h3>
                   
                   <p className="text-muted-foreground mb-4 line-clamp-3">

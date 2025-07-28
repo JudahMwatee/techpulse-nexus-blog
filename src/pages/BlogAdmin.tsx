@@ -11,6 +11,7 @@ import MarkdownRenderer from '@/components/MarkdownRenderer';
 import { useToast } from '@/hooks/use-toast';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import ImageUpload from '@/components/ImageUpload';
 
 const BlogAdmin = () => {
   const [formData, setFormData] = useState({
@@ -64,7 +65,7 @@ const BlogAdmin = () => {
     try {
       const { data, error } = await supabase
         .from('blog_posts')
-        .select('id, title, created_at, updated_at')
+        .select('id, blog_title, created_at, updated_at')
         .eq('published', false)
         .order('updated_at', { ascending: false })
         .limit(10);
@@ -87,7 +88,7 @@ const BlogAdmin = () => {
         .filter(tag => tag.length > 0);
 
       const draftData = {
-        title: formData.title || 'Untitled Draft',
+        blog_title: formData.title || 'Untitled Draft',
         slug: formData.slug || `draft-${Date.now()}`,
         excerpt: formData.excerpt || null,
         content: formData.content,
@@ -140,7 +141,7 @@ const BlogAdmin = () => {
       if (error) throw error;
 
       setFormData({
-        title: data.title,
+        title: data.blog_title,
         slug: data.slug,
         excerpt: data.excerpt || '',
         content: data.content,
@@ -196,7 +197,7 @@ const BlogAdmin = () => {
         .filter(tag => tag.length > 0);
 
       const blogPost = {
-        title: formData.title,
+        blog_title: formData.title,
         slug: formData.slug,
         excerpt: formData.excerpt || null,
         content: formData.content,
@@ -281,7 +282,7 @@ const BlogAdmin = () => {
                     <SelectContent>
                       {existingDrafts.map((draft) => (
                         <SelectItem key={draft.id} value={draft.id}>
-                          {draft.title} - {new Date(draft.updated_at).toLocaleDateString()}
+                          {draft.blog_title} - {new Date(draft.updated_at).toLocaleDateString()}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -356,15 +357,10 @@ const BlogAdmin = () => {
                     </div>
                   </div>
 
-                  <div>
-                    <Label htmlFor="image_url">Featured Image URL</Label>
-                    <Input
-                      id="image_url"
-                      value={formData.image_url}
-                      onChange={(e) => setFormData(prev => ({ ...prev, image_url: e.target.value }))}
-                      placeholder="https://example.com/image.jpg"
-                    />
-                  </div>
+                  <ImageUpload
+                    onImageUploaded={(imageUrl) => setFormData(prev => ({ ...prev, image_url: imageUrl }))}
+                    currentImageUrl={formData.image_url}
+                  />
 
                   <div>
                     <Label htmlFor="tags">Tags (comma-separated)</Label>
