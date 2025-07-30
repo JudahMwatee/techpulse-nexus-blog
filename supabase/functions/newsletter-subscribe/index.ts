@@ -59,7 +59,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Send welcome email
     const emailResponse = await resend.emails.send({
-      from: "TechPulse <onboarding@resend.dev>",
+      from: "TechPulse <noreply@jaytechkenya.com>",
       to: [email],
       subject: "Welcome to TechPulse Newsletter!",
       html: `
