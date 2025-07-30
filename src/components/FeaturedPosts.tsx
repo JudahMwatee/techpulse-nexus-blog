@@ -53,16 +53,16 @@ const FeaturedPosts = () => {
     fetchPosts();
   }, []);
   return (
-    <section className="py-20 bg-gradient-hero">
+    <section className="py-12 md:py-20 bg-gradient-hero">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <Badge variant="outline" className="mb-4 border-primary/20 text-primary">
+        <div className="text-center mb-8 md:mb-12">
+          <Badge variant="outline" className="mb-3 md:mb-4 border-primary/20 text-primary text-xs md:text-sm">
             Featured Stories
           </Badge>
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-3 md:mb-4">
             Latest Tech Insights
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-sm md:text-base text-muted-foreground max-w-2xl mx-auto px-4">
             Stay informed with our curated selection of the most important tech news, 
             startup stories, and industry analysis.
           </p>
@@ -73,11 +73,11 @@ const FeaturedPosts = () => {
         ) : posts.length === 0 ? (
           <div className="col-span-full text-center text-muted-foreground">No featured posts available</div>
         ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
             {posts.map((post, index) => (
               <Card 
                 key={post.id} 
-                className={`group cursor-pointer transition-all duration-300 hover:shadow-card hover:-translate-y-2 bg-gradient-card border-border/50 ${
+                className={`group cursor-pointer transition-all duration-300 hover:shadow-card hover:-translate-y-1 md:hover:-translate-y-2 bg-gradient-card border-border/50 ${
                   index === 0 ? 'md:col-span-2 lg:col-span-1 lg:row-span-2' : ''
                 }`}
                 onClick={() => navigate(`/blog/${post.slug}`)}
@@ -101,14 +101,14 @@ const FeaturedPosts = () => {
                   </div>
                 </div>
 
-                <CardContent className="p-6">
-                  <h3 className={`font-bold mb-3 group-hover:text-primary transition-colors line-clamp-2 ${
-                    index === 0 ? 'text-xl lg:text-2xl' : 'text-lg'
+                <CardContent className="p-4 md:p-6">
+                  <h3 className={`font-bold mb-2 md:mb-3 group-hover:text-primary transition-colors line-clamp-2 ${
+                    index === 0 ? 'text-lg md:text-xl lg:text-2xl' : 'text-base md:text-lg'
                   }`}>
                     {post.blog_title}
                   </h3>
                   
-                  <p className="text-muted-foreground mb-4 line-clamp-3">
+                  <p className="text-sm md:text-base text-muted-foreground mb-3 md:mb-4 line-clamp-2 md:line-clamp-3">
                     {post.excerpt || 'No excerpt available'}
                   </p>
 
@@ -148,10 +148,10 @@ const FeaturedPosts = () => {
           </div>
         )}
 
-        <div className="text-center mt-12">
-          <Button variant="outline" size="lg" className="border-primary/20 hover:bg-primary/5">
+        <div className="text-center mt-8 md:mt-12">
+          <Button variant="outline" size="lg" className="border-primary/20 hover:bg-primary/5 text-sm md:text-base">
             View All Articles
-            <ArrowRight className="w-5 h-5 ml-2" />
+            <ArrowRight className="w-4 h-4 md:w-5 md:h-5 ml-2" />
           </Button>
         </div>
       </div>

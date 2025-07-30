@@ -83,35 +83,35 @@ const Newsletter = () => {
   };
 
   return (
-    <section className="py-20 relative overflow-hidden">
+    <section className="py-12 md:py-20 relative overflow-hidden">
       {/* Background patterns */}
       <div className="absolute inset-0 bg-gradient-hero opacity-50"></div>
       <div className="absolute top-0 left-0 w-full h-full">
-        <div className="absolute top-20 left-20 w-32 h-32 bg-primary/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 right-20 w-40 h-40 bg-accent/10 rounded-full blur-3xl"></div>
+        <div className="absolute top-10 md:top-20 left-4 md:left-20 w-16 h-16 md:w-32 md:h-32 bg-primary/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-10 md:bottom-20 right-4 md:right-20 w-20 h-20 md:w-40 md:h-40 bg-accent/10 rounded-full blur-3xl"></div>
       </div>
 
       <div className="container mx-auto px-4 relative">
         <div className="max-w-4xl mx-auto">
           <Card className="bg-gradient-card border-border/50 shadow-elegant backdrop-blur-sm">
-            <CardContent className="p-8 md:p-12">
-              <div className="text-center mb-8">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-primary rounded-full mb-6 shadow-glow">
-                  <Mail className="w-8 h-8 text-primary-foreground" />
+            <CardContent className="p-6 md:p-8 lg:p-12">
+              <div className="text-center mb-6 md:mb-8">
+                <div className="inline-flex items-center justify-center w-12 h-12 md:w-16 md:h-16 bg-gradient-primary rounded-full mb-4 md:mb-6 shadow-glow">
+                  <Mail className="w-6 h-6 md:w-8 md:h-8 text-primary-foreground" />
                 </div>
                 
-                <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-3 md:mb-4">
                   Stay in the Tech Loop
                 </h2>
                 
-                <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                <p className="text-sm md:text-base lg:text-lg text-muted-foreground max-w-2xl mx-auto px-4">
                   Get the latest startup news, tech trends, and exclusive insights delivered 
                   straight to your inbox. Join our community of forward-thinking professionals.
                 </p>
               </div>
 
               {/* Benefits */}
-              <div className="grid md:grid-cols-3 gap-6 mb-8">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-6 md:mb-8">
                 <div className="text-center">
                   <div className="inline-flex items-center justify-center w-12 h-12 bg-primary/10 rounded-full mb-3">
                     <Zap className="w-6 h-6 text-primary" />
@@ -146,24 +146,24 @@ const Newsletter = () => {
               {/* Newsletter form */}
               {!subscribed ? (
                 <form onSubmit={handleSubmit} className="max-w-md mx-auto">
-                  <div className="flex flex-col sm:flex-row gap-3">
+                  <div className="flex flex-col sm:flex-row gap-2 md:gap-3">
                     <Input
                       type="email"
                       placeholder="Enter your email address"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="flex-1 bg-background border-border/50"
+                      className="flex-1 bg-background border-border/50 text-sm md:text-base"
                       required
                     />
                     <Button 
                       type="submit" 
                       disabled={isSubmitting}
-                      className="bg-gradient-primary hover:shadow-glow transition-all duration-300"
+                      className="bg-gradient-primary hover:shadow-glow transition-all duration-300 text-sm md:text-base px-4 md:px-6"
                     >
                       {isSubmitting ? "Subscribing..." : "Subscribe"}
                     </Button>
                   </div>
-                  <p className="text-xs text-muted-foreground mt-3 text-center">
+                  <p className="text-xs text-muted-foreground mt-2 md:mt-3 text-center px-4">
                     No spam. Unsubscribe at any time. Read our privacy policy.
                   </p>
                 </form>

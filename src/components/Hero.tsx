@@ -16,16 +16,16 @@ const Hero = () => {
         <div className="absolute inset-0 bg-gradient-hero"></div>
       </div>
 
-      <div className="relative container mx-auto px-4 py-20">
+      <div className="relative container mx-auto px-4 py-12 md:py-20">
         <div className="max-w-4xl">
           {/* Trending badge */}
-          <div className="inline-flex items-center space-x-2 bg-gradient-primary/10 backdrop-blur-sm border border-primary/20 rounded-full px-4 py-2 mb-6">
-            <TrendingUp className="w-4 h-4 text-primary" />
-            <span className="text-sm font-medium text-primary">Trending in Tech</span>
+          <div className="inline-flex items-center space-x-2 bg-gradient-primary/10 backdrop-blur-sm border border-primary/20 rounded-full px-3 py-1.5 md:px-4 md:py-2 mb-4 md:mb-6">
+            <TrendingUp className="w-3 h-3 md:w-4 md:h-4 text-primary" />
+            <span className="text-xs md:text-sm font-medium text-primary">Trending in Tech</span>
           </div>
 
           {/* Main heading */}
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6">
+          <h1 className="text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight mb-4 md:mb-6">
             <span className="block">Stay Ahead of the</span>
             <span className="bg-gradient-primary bg-clip-text text-transparent">
               Tech Revolution
@@ -33,26 +33,26 @@ const Hero = () => {
           </h1>
 
           {/* Subtitle */}
-          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-8 leading-relaxed">
+          <p className="text-base md:text-lg lg:text-xl text-muted-foreground max-w-2xl mb-6 md:mb-8 leading-relaxed">
             Get the latest insights on startups, tech innovations, and industry trends. 
             Join thousands of tech professionals who trust TechPulse for cutting-edge analysis.
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 mb-12">
-            <Button size="lg" className="bg-gradient-primary hover:shadow-glow transition-all duration-300 group">
+          <div className="flex flex-col sm:flex-row gap-3 md:gap-4 mb-8 md:mb-12">
+            <Button size="lg" className="bg-gradient-primary hover:shadow-glow transition-all duration-300 group text-sm md:text-base">
               Start Reading
-              <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="w-4 h-4 md:w-5 md:h-5 ml-2 group-hover:translate-x-1 transition-transform" />
             </Button>
             
-            <Button variant="outline" size="lg" className="group border-primary/20 hover:bg-primary/5">
-              <Play className="w-5 h-5 mr-2" />
+            <Button variant="outline" size="lg" className="group border-primary/20 hover:bg-primary/5 text-sm md:text-base">
+              <Play className="w-4 h-4 md:w-5 md:h-5 mr-2" />
               Watch Demo
             </Button>
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 pt-8 border-t border-border/50">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 md:gap-8 pt-6 md:pt-8 border-t border-border/50">
             <div className="text-center sm:text-left">
               <div className="text-2xl md:text-3xl font-bold text-primary mb-1">50K+</div>
               <div className="text-muted-foreground">Active Readers</div>

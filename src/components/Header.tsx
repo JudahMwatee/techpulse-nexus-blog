@@ -85,16 +85,16 @@ const Header = () => {
         ? 'bg-background/80 backdrop-blur-md border-b shadow-card' 
         : 'bg-transparent'
     }`}>
-      <div className="container mx-auto px-4 py-4">
+      <div className="container mx-auto px-4 py-2 md:py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-2 md:space-x-3">
             <img 
               src="/lovable-uploads/80c993d6-387a-4553-85c2-c98311755584.png" 
               alt="TechPulse Digital Village" 
-              className="h-[196px] w-auto"
+              className="h-12 w-auto md:h-16 lg:h-20"
             />
-            <span className="text-2xl font-bold text-primary">TechPulse</span>
+            <span className="text-lg md:text-xl lg:text-2xl font-bold text-primary hidden sm:block">TechPulse</span>
           </div>
 
           {/* Navigation - Desktop */}
@@ -107,26 +107,26 @@ const Header = () => {
           </nav>
 
           {/* Actions */}
-          <div className="flex items-center space-x-3">
-            <Button variant="ghost" size="icon" className="hover:bg-muted">
-              <Search className="w-5 h-5" />
+          <div className="flex items-center space-x-1 md:space-x-3">
+            <Button variant="ghost" size="icon" className="hover:bg-muted hidden sm:flex">
+              <Search className="w-4 h-4 md:w-5 md:h-5" />
             </Button>
             
-            <Button variant="ghost" size="icon" className="hover:bg-muted">
-              <Bell className="w-5 h-5" />
+            <Button variant="ghost" size="icon" className="hover:bg-muted hidden sm:flex">
+              <Bell className="w-4 h-4 md:w-5 md:h-5" />
             </Button>
             
             <Button variant="ghost" size="icon" onClick={toggleDarkMode} className="hover:bg-muted">
-              {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+              {darkMode ? <Sun className="w-4 h-4 md:w-5 md:h-5" /> : <Moon className="w-4 h-4 md:w-5 md:h-5" />}
             </Button>
             
-            <Button variant="ghost" size="icon" className="hover:bg-muted">
-              <User className="w-5 h-5" />
+            <Button variant="ghost" size="icon" className="hover:bg-muted hidden sm:flex">
+              <User className="w-4 h-4 md:w-5 md:h-5" />
             </Button>
             
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
               <DialogTrigger asChild>
-                <Button className="hidden sm:flex bg-gradient-primary hover:shadow-glow transition-all duration-300">
+                <Button className="hidden md:flex bg-gradient-primary hover:shadow-glow transition-all duration-300 text-sm px-3 py-2">
                   Subscribe
                 </Button>
               </DialogTrigger>

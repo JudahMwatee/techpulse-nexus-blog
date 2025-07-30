@@ -7,15 +7,15 @@ const Footer = () => {
 
   return (
     <footer className="bg-muted/30 border-t border-border/50">
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+      <div className="container mx-auto px-4 py-8 md:py-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mb-6 md:mb-8">
           {/* Brand */}
           <div className="lg:col-span-1">
             <div className="flex items-center space-x-2 mb-4">
-              <div className="w-[196px] h-[196px] flex items-center justify-center">
-                <img src="/lovable-uploads/8ed340b8-fb46-4782-b22a-bd1d904356f3.png" alt="TechPulse Logo" className="w-[196px] h-[196px] object-contain" />
+              <div className="w-16 h-16 md:w-20 md:h-20 flex items-center justify-center">
+                <img src="/lovable-uploads/8ed340b8-fb46-4782-b22a-bd1d904356f3.png" alt="TechPulse Logo" className="w-16 h-16 md:w-20 md:h-20 object-contain" />
               </div>
-              <span className="text-xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+              <span className="text-lg md:text-xl font-bold bg-gradient-primary bg-clip-text text-transparent">
                 TechPulse
               </span>
             </div>
@@ -81,15 +81,15 @@ const Footer = () => {
         </div>
 
         {/* Bottom bar */}
-        <div className="pt-8 border-t border-border/50 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-muted-foreground text-sm mb-4 md:mb-0">
+        <div className="pt-6 md:pt-8 border-t border-border/50 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+          <p className="text-muted-foreground text-xs md:text-sm text-center md:text-left">
             © {currentYear} TechPulse. All rights reserved.
           </p>
           
-          <div className="flex items-center space-x-4 text-sm text-muted-foreground">
+          <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4 text-xs md:text-sm text-muted-foreground">
             <div className="flex items-center space-x-2">
               <span>Made with</span>
-              <Heart className="w-4 h-4 text-red-500 fill-current" />
+              <Heart className="w-3 h-3 md:w-4 md:h-4 text-red-500 fill-current" />
               <span>for the tech community</span>
             </div>
             <span className="text-primary font-medium">TechPulse</span>
