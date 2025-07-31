@@ -6,6 +6,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import BlogPost from "./pages/BlogPost";
 import BlogAdmin from "./pages/BlogAdmin";
+import Startups from "./pages/Startups";
+import CyberSecurity from "./pages/CyberSecurity";
+import AIMachineLearning from "./pages/AIMachineLearning";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -20,6 +23,9 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="/admin/blog" element={<BlogAdmin />} />
+          <Route path="/startups" element={<Startups />} />
+          <Route path="/cybersecurity" element={<CyberSecurity />} />
+          <Route path="/ai-machine-learning" element={<AIMachineLearning />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
