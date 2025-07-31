@@ -8,6 +8,8 @@ import { formatDistanceToNow } from "date-fns";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MarkdownRenderer from "@/components/MarkdownRenderer";
+import CommentForm from "@/components/CommentForm";
+import CommentsList from "@/components/CommentsList";
 
 interface BlogPost {
   id: string;
@@ -29,6 +31,7 @@ const BlogPost = () => {
   const [post, setPost] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [commentRefreshTrigger, setCommentRefreshTrigger] = useState(0);
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -78,6 +81,10 @@ const BlogPost = () => {
 
     fetchPost();
   }, [slug]);
+
+  const handleCommentSubmitted = () => {
+    setCommentRefreshTrigger(prev => prev + 1);
+  };
 
   if (loading) {
     return (
@@ -190,6 +197,18 @@ const BlogPost = () => {
             </div>
           </div>
         )}
+
+        {/* Comments Section */}
+        <div className="mt-12 pt-8 border-t space-y-8">
+          <CommentsList 
+            blogPostId={post.id} 
+            refreshTrigger={commentRefreshTrigger}
+          />
+          <CommentForm 
+            blogPostId={post.id} 
+            onCommentSubmitted={handleCommentSubmitted}
+          />
+        </div>
       </article>
 
       <Footer />
