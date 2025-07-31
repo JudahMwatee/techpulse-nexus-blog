@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Play, TrendingUp } from "lucide-react";
+import { ArrowRight, TrendingUp } from "lucide-react";
 import heroImage from "@/assets/hero-tech.jpg";
 
 const Hero = () => {
@@ -43,11 +43,6 @@ const Hero = () => {
             <Button size="lg" className="bg-gradient-primary hover:shadow-glow transition-all duration-300 group text-sm md:text-base">
               Start Reading
               <ArrowRight className="w-4 h-4 md:w-5 md:h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-            </Button>
-            
-            <Button variant="outline" size="lg" className="group border-primary/20 hover:bg-primary/5 text-sm md:text-base">
-              <Play className="w-4 h-4 md:w-5 md:h-5 mr-2" />
-              Watch Demo
             </Button>
           </div>
 
