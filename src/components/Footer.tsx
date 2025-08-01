@@ -56,7 +56,7 @@ const Footer = () => {
             <h3 className="font-semibold mb-4">Resources</h3>
             <ul className="space-y-2">
               <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">About Us</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Contact</a></li>
+              <li><a href="techpulse-nexus-blog.lovable.app/contact" className="text-muted-foreground hover:text-primary transition-colors">Contact</a></li>
               <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Advertise</a></li>
               <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Newsletter</a></li>
               <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">RSS Feed</a></li>
