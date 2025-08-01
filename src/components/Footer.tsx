@@ -55,7 +55,7 @@ const Footer = () => {
           <div>
             <h3 className="font-semibold mb-4">Resources</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">About Us</a></li>
+              <li><a href="#" className="/about">About Us</a></li>
               <li><a href="/Contact" className="text-muted-foreground hover:text-primary transition-colors">Contact</a></li>
               <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Advertise</a></li>
               <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Newsletter</a></li>
