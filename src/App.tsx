@@ -10,6 +10,7 @@ import Startups from "./pages/Startups";
 import CyberSecurity from "./pages/CyberSecurity";
 import AIMachineLearning from "./pages/AIMachineLearning";
 import About from "./pages/About";
+import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -28,6 +29,7 @@ const App = () => (
           <Route path="/cybersecurity" element={<CyberSecurity />} />
           <Route path="/ai-machine-learning" element={<AIMachineLearning />} />
           <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
