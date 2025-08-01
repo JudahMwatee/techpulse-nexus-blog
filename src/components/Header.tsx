@@ -101,7 +101,8 @@ const Header = () => {
           <nav className="hidden md:flex items-center space-x-8">
             <a href="/" className="text-foreground hover:text-primary transition-colors font-medium">Home</a>
             <a href="/startups" className="text-muted-foreground hover:text-primary transition-colors">Startups</a>
-            <a href="/tech-news" className="text-muted-foreground hover:text-primary transition-colors">Tech News</a>
+            <a href="/cybersecurity" className="text-muted-foreground hover:text-primary transition-colors">CyberSecurity</a>
+            <a href="/ai-machine-learning" className="text-muted-foreground hover:text-primary transition-colors">AI & ML</a>
             <a href="/trends" className="text-muted-foreground hover:text-primary transition-colors">Trends</a>
             <a href="/about" className="text-muted-foreground hover:text-primary transition-colors">About</a>
           </nav>
