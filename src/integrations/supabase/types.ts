@@ -14,6 +14,33 @@ export type Database = {
   }
   public: {
     Tables: {
+      about_us: {
+        Row: {
+          content: string
+          created_at: string | null
+          id: number
+          section_order: number | null
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          content: string
+          created_at?: string | null
+          id?: never
+          section_order?: number | null
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          content?: string
+          created_at?: string | null
+          id?: never
+          section_order?: number | null
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       blog_posts: {
         Row: {
           author: string
@@ -109,6 +136,39 @@ export type Database = {
           },
         ]
       }
+      contact_submissions: {
+        Row: {
+          created_at: string | null
+          email: string
+          full_name: string
+          id: number
+          message: string
+          phone: string | null
+          processed: boolean | null
+          subject: string
+        }
+        Insert: {
+          created_at?: string | null
+          email: string
+          full_name: string
+          id?: never
+          message: string
+          phone?: string | null
+          processed?: boolean | null
+          subject: string
+        }
+        Update: {
+          created_at?: string | null
+          email?: string
+          full_name?: string
+          id?: never
+          message?: string
+          phone?: string | null
+          processed?: boolean | null
+          subject?: string
+        }
+        Relationships: []
+      }
       site_pages: {
         Row: {
           content: string
@@ -141,7 +201,37 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      add_admin_user: {
+        Args: { admin_email: string }
+        Returns: string
+      }
+      get_about_us_content: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          title: string
+          content: string
+        }[]
+      }
+      get_contact_information: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          contact_type: string
+          name: string
+          email: string
+          phone: string
+          description: string
+        }[]
+      }
+      submit_contact_form: {
+        Args: {
+          p_full_name: string
+          p_email: string
+          p_subject: string
+          p_message: string
+          p_phone?: string
+        }
+        Returns: number
+      }
     }
     Enums: {
       [_ in never]: never

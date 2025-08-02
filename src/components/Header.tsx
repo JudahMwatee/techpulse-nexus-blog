@@ -5,13 +5,21 @@ import { Search, Menu, User, Bell, Moon, Sun, Mail } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import SearchDialog from "./SearchDialog";
 
 const Header = () => {
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return document.documentElement.classList.contains('dark') || 
+             localStorage.getItem('theme') === 'dark';
+    }
+    return false;
+  });
   const [isScrolled, setIsScrolled] = useState(false);
   const [email, setEmail] = useState("");
   const [isSubscribing, setIsSubscribing] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -22,9 +30,28 @@ const Header = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    // Set initial theme based on localStorage
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      document.documentElement.classList.add('dark');
+      setDarkMode(true);
+    } else if (savedTheme === 'light') {
+      document.documentElement.classList.remove('dark');
+      setDarkMode(false);
+    }
+  }, []);
+
   const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-    document.documentElement.classList.toggle('dark');
+    const newDarkMode = !darkMode;
+    setDarkMode(newDarkMode);
+    if (newDarkMode) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
   };
 
   const handleSubscribe = async (e: React.FormEvent) => {
@@ -110,7 +137,7 @@ const Header = () => {
 
           {/* Actions */}
           <div className="flex items-center space-x-1 md:space-x-3">
-            <Button variant="ghost" size="icon" className="hover:bg-muted hidden sm:flex">
+            <Button variant="ghost" size="icon" className="hover:bg-muted hidden sm:flex" onClick={() => setIsSearchOpen(true)}>
               <Search className="w-4 h-4 md:w-5 md:h-5" />
             </Button>
             
@@ -170,6 +197,9 @@ const Header = () => {
           </div>
         </div>
       </div>
+
+      {/* Search Dialog */}
+      <SearchDialog open={isSearchOpen} onOpenChange={setIsSearchOpen} />
     </header>
   );
 };
