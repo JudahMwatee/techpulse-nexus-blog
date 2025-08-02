@@ -11,6 +11,7 @@ const Hero = () => {
           src={heroImage}
           alt="Tech innovation"
           className="w-full h-full object-cover"
+          loading="eager"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/80 to-background/60"></div>
         <div className="absolute inset-0 bg-gradient-hero"></div>
@@ -26,9 +27,9 @@ const Hero = () => {
 
           {/* Main heading */}
           <h1 className="text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight mb-4 md:mb-6">
-            <span className="block">Stay Ahead of the</span>
+            <span className="block">Your Pulse on the</span>
             <span className="bg-gradient-primary bg-clip-text text-transparent">
-              Tech Revolution
+              Latest Tech
             </span>
           </h1>
 

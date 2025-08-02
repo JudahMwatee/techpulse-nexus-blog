@@ -89,6 +89,8 @@ const FeaturedPosts = () => {
                     className={`w-full object-cover transition-transform duration-300 group-hover:scale-105 ${
                       index === 0 ? 'h-64 lg:h-96' : 'h-48'
                     }`}
+                    loading={index === 0 ? "eager" : "lazy"}
+                    decoding="async"
                   />
                   <div className="absolute top-4 left-4">
                     <Badge className="bg-primary text-primary-foreground">

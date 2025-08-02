@@ -93,6 +93,7 @@ const Header = () => {
               src="/lovable-uploads/80c993d6-387a-4553-85c2-c98311755584.png" 
               alt="TechPulse Digital Village" 
               className="h-12 w-auto md:h-16 lg:h-20"
+              loading="eager"
             />
             <span className="text-lg md:text-xl lg:text-2xl font-bold text-primary hidden sm:block">TechPulse</span>
           </div>

@@ -13,7 +13,7 @@ const Footer = () => {
           <div className="lg:col-span-1">
             <div className="flex items-center space-x-2 mb-4">
               <div className="w-16 h-16 md:w-20 md:h-20 flex items-center justify-center">
-                <img src="/lovable-uploads/8ed340b8-fb46-4782-b22a-bd1d904356f3.png" alt="TechPulse Logo" className="w-16 h-16 md:w-20 md:h-20 object-contain" />
+                <img src="/lovable-uploads/8ed340b8-fb46-4782-b22a-bd1d904356f3.png" alt="TechPulse Logo" className="w-16 h-16 md:w-20 md:h-20 object-contain" loading="lazy" />
               </div>
               <span className="text-lg md:text-xl font-bold bg-gradient-primary bg-clip-text text-transparent">
                 TechPulse
@@ -55,8 +55,8 @@ const Footer = () => {
           <div>
             <h3 className="font-semibold mb-4">Resources</h3>
             <ul className="space-y-2">
-              <li><a href="/About" className="text-muted-foreground hover:text-primary transition-colors">About Us</a></li>
-              <li><a href="/Contact" className="text-muted-foreground hover:text-primary transition-colors">Contact</a></li>
+              <li><a href="/about" className="text-muted-foreground hover:text-primary transition-colors">About Us</a></li>
+              <li><a href="/contact" className="text-muted-foreground hover:text-primary transition-colors">Contact</a></li>
               <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Advertise</a></li>
               <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Newsletter</a></li>
               <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">RSS Feed</a></li>
